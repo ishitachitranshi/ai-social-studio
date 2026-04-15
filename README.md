@@ -14,6 +14,20 @@ An AI-powered tool to generate **ready-to-use Instagram carousel content** — b
 
 ---
 
+## 🧪 Try These Example Prompts
+
+You can test the app quickly using these sample inputs:
+
+* Explain the forgetting curve to parents
+* How to stay productive as a student
+* Basics of investing for beginners
+* Why consistency beats motivation
+* Simple explanation of AI for non-technical people
+
+👉 Each prompt generates a 5-slide Instagram-style carousel.
+
+---
+
 ## 🎯 What This Project Solves
 
 Most AI tools generate text — but **don’t make it usable**.
