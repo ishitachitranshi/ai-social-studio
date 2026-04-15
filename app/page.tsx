@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 
-// ✅ Safe dynamic import (prevents Vercel crash)
+// ✅ Safe dynamic import
 let toPng: any = null;
 
 if (typeof window !== "undefined") {
@@ -17,7 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
 
-  // ✅ Proper typing (IMPORTANT FIX)
+  // ✅ Proper ref typing
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const generate = async () => {
@@ -58,13 +58,12 @@ export default function Home() {
       
       <div className="grid grid-cols-2 gap-6">
 
-        {/* LEFT PANEL */}
+        {/* LEFT */}
         <div className="sticky top-6 h-fit">
           <h1 className="text-3xl font-bold mb-4">
             AI Social Media Studio 🚀
           </h1>
 
-          {/* INPUT */}
           <textarea
             className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-300 ${
               darkMode ? "text-white" : "text-black"
@@ -85,11 +84,11 @@ export default function Home() {
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`px-4 py-2 rounded font-medium 
-                ${darkMode 
-                  ? "bg-blue-600 text-white" 
+              className={`px-4 py-2 rounded font-medium ${
+                darkMode
+                  ? "bg-blue-600 text-white"
                   : "border border-gray-400 text-black"
-                }`}
+              }`}
             >
               {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
             </button>
@@ -104,7 +103,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* RIGHT PANEL */}
+        {/* RIGHT */}
         <div className="flex flex-col items-center">
 
           <p className="text-sm opacity-70 mb-4">
@@ -116,13 +115,12 @@ export default function Home() {
               <div
                 key={i}
                 ref={(el) => {
-                  // ✅ FIXED (no return)
-                  slideRefs.current[i] = el;
+                  // ✅ FINAL FIX (NO ERROR)
+                  if (el) slideRefs.current[i] = el;
                 }}
                 className="w-[300px] h-[300px] flex flex-col justify-between p-6 rounded-2xl shadow-xl text-white bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400"
               >
                 
-                {/* TITLE */}
                 <textarea
                   className="bg-transparent text-center font-bold text-xl outline-none resize-none leading-snug overflow-hidden"
                   rows={2}
@@ -134,7 +132,6 @@ export default function Home() {
                   }}
                 />
 
-                {/* CONTENT */}
                 <textarea
                   className="bg-transparent text-center text-sm outline-none resize-none leading-relaxed overflow-hidden"
                   rows={5}
