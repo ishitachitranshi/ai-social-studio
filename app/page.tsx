@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 
-// ✅ SAFE dynamic import (fixes Vercel build)
+// ✅ Safe dynamic import (prevents Vercel crash)
 let toPng: any = null;
 
 if (typeof window !== "undefined") {
@@ -17,7 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
 
-  const slideRefs = useRef<any[]>([]);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const generate = async () => {
     setLoading(true);
@@ -33,7 +33,6 @@ export default function Home() {
     setLoading(false);
   };
 
-  // ✅ SAFE DOWNLOAD
   const downloadSlides = async () => {
     if (!toPng) {
       alert("Please wait a second and try again");
@@ -54,8 +53,13 @@ export default function Home() {
   };
 
   return (
-    <div className={darkMode ? "bg-black text-white min-h-screen p-6" : "bg-white text-black min-h-screen p-6"}>
-      
+    <div
+      className={
+        darkMode
+          ? "bg-black text-white min-h-screen p-6"
+          : "bg-white text-black min-h-screen p-6"
+      }
+    >
       <div className="grid grid-cols-2 gap-6">
 
         {/* LEFT PANEL */}
@@ -88,9 +92,10 @@ export default function Home() {
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`px-4 py-2 rounded font-medium 
-                ${darkMode 
-                  ? "bg-blue-600 text-white" 
-                  : "border border-gray-400 text-black"
+                ${
+                  darkMode
+                    ? "bg-blue-600 text-white"
+                    : "border border-gray-400 text-black"
                 }`}
             >
               {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
@@ -118,7 +123,9 @@ export default function Home() {
             {slides.map((slide, i) => (
               <div
                 key={i}
-                ref={(el) => (slideRefs.current[i] = el)}
+                ref={(el) => {
+                  slideRefs.current[i] = el;
+                }}
                 className="w-[300px] h-[300px] flex flex-col justify-between p-6 rounded-2xl shadow-xl text-white bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400"
               >
                 
@@ -153,7 +160,6 @@ export default function Home() {
         </div>
 
       </div>
-
     </div>
   );
 }
