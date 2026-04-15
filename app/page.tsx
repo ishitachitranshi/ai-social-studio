@@ -1,11 +1,19 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { toPng } from "html-to-image";
+
+// ✅ SAFE dynamic import (fixes Vercel build)
+let toPng: any = null;
+
+if (typeof window !== "undefined") {
+  import("html-to-image").then((mod) => {
+    toPng = mod.toPng;
+  });
+}
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const [slides, setSlides] = useState<any[]>([]);
+  const [slides, setSlides] = useState<{ title: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
 
@@ -25,7 +33,13 @@ export default function Home() {
     setLoading(false);
   };
 
+  // ✅ SAFE DOWNLOAD
   const downloadSlides = async () => {
+    if (!toPng) {
+      alert("Please wait a second and try again");
+      return;
+    }
+
     for (let i = 0; i < slideRefs.current.length; i++) {
       const node = slideRefs.current[i];
       if (!node) continue;
@@ -40,13 +54,8 @@ export default function Home() {
   };
 
   return (
-    <div
-      className={
-        darkMode
-          ? "bg-black text-white min-h-screen p-6"
-          : "bg-white text-black min-h-screen p-6"
-      }
-    >
+    <div className={darkMode ? "bg-black text-white min-h-screen p-6" : "bg-white text-black min-h-screen p-6"}>
+      
       <div className="grid grid-cols-2 gap-6">
 
         {/* LEFT PANEL */}
@@ -79,10 +88,9 @@ export default function Home() {
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`px-4 py-2 rounded font-medium 
-                ${
-                  darkMode
-                    ? "bg-blue-600 text-white"
-                    : "border border-gray-400 text-black"
+                ${darkMode 
+                  ? "bg-blue-600 text-white" 
+                  : "border border-gray-400 text-black"
                 }`}
             >
               {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
@@ -118,7 +126,6 @@ export default function Home() {
                 <textarea
                   className="bg-transparent text-center font-bold text-xl outline-none resize-none leading-snug overflow-hidden"
                   rows={2}
-                  style={{ overflow: "hidden" }}
                   value={slide.title}
                   onChange={(e) => {
                     const newSlides = [...slides];
@@ -131,7 +138,6 @@ export default function Home() {
                 <textarea
                   className="bg-transparent text-center text-sm outline-none resize-none leading-relaxed overflow-hidden"
                   rows={5}
-                  style={{ overflow: "hidden" }}
                   value={slide.content}
                   onChange={(e) => {
                     const newSlides = [...slides];
@@ -147,6 +153,7 @@ export default function Home() {
         </div>
 
       </div>
+
     </div>
   );
 }
