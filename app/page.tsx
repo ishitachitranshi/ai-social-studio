@@ -17,6 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
 
+  // ✅ Proper typing (IMPORTANT FIX)
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const generate = async () => {
@@ -53,13 +54,8 @@ export default function Home() {
   };
 
   return (
-    <div
-      className={
-        darkMode
-          ? "bg-black text-white min-h-screen p-6"
-          : "bg-white text-black min-h-screen p-6"
-      }
-    >
+    <div className={darkMode ? "bg-black text-white min-h-screen p-6" : "bg-white text-black min-h-screen p-6"}>
+      
       <div className="grid grid-cols-2 gap-6">
 
         {/* LEFT PANEL */}
@@ -68,7 +64,7 @@ export default function Home() {
             AI Social Media Studio 🚀
           </h1>
 
-          {/* CLEAN INPUT */}
+          {/* INPUT */}
           <textarea
             className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-300 ${
               darkMode ? "text-white" : "text-black"
@@ -80,7 +76,6 @@ export default function Home() {
 
           <div className="flex gap-3 mt-3 flex-wrap">
 
-            {/* GENERATE */}
             <button
               onClick={generate}
               className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
@@ -88,20 +83,17 @@ export default function Home() {
               {loading ? "Generating..." : "Generate"}
             </button>
 
-            {/* DARK MODE */}
             <button
               onClick={() => setDarkMode(!darkMode)}
               className={`px-4 py-2 rounded font-medium 
-                ${
-                  darkMode
-                    ? "bg-blue-600 text-white"
-                    : "border border-gray-400 text-black"
+                ${darkMode 
+                  ? "bg-blue-600 text-white" 
+                  : "border border-gray-400 text-black"
                 }`}
             >
               {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
             </button>
 
-            {/* DOWNLOAD */}
             <button
               onClick={downloadSlides}
               className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded"
@@ -124,6 +116,7 @@ export default function Home() {
               <div
                 key={i}
                 ref={(el) => {
+                  // ✅ FIXED (no return)
                   slideRefs.current[i] = el;
                 }}
                 className="w-[300px] h-[300px] flex flex-col justify-between p-6 rounded-2xl shadow-xl text-white bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400"
@@ -160,6 +153,7 @@ export default function Home() {
         </div>
 
       </div>
+
     </div>
   );
 }
