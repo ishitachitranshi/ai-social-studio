@@ -16,8 +16,6 @@ export default function Home() {
   const [slides, setSlides] = useState<{ title: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
-
-  // ✅ NEW: format state
   const [format, setFormat] = useState("carousel");
 
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -66,11 +64,13 @@ export default function Home() {
             AI Social Media Studio 🚀
           </h1>
 
-          {/* ✅ FORMAT SELECTOR */}
+          {/* ✅ BLUE BORDER DROPDOWN */}
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
-            className="mb-3 p-2 rounded border border-gray-400 text-black"
+            className={`mb-3 p-2 rounded border-2 border-blue-500 bg-transparent outline-none focus:ring-2 focus:ring-blue-300 ${
+              darkMode ? "text-white bg-black" : "text-black bg-white"
+            }`}
           >
             <option value="carousel">Carousel (1:1)</option>
             <option value="post">Post (1:1)</option>
