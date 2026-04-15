@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 AI Social Media Studio
 
-## Getting Started
+An AI-powered tool to generate **ready-to-use Instagram carousel content** — built with a strong focus on usability, editing flexibility, and real-world workflows.
 
-First, run the development server:
+---
+
+## 🌐 Live Demo
+
+👉 https://ai-social-studio-git-main-ishita-chitranshi-s-projects.vercel.app/
+
+## 💻 GitHub
+
+👉 https://github.com/ishitachitranshi/ai-social-studio.git
+
+---
+
+## 🎯 What This Project Solves
+
+Most AI tools generate text — but **don’t make it usable**.
+
+This project focuses on:
+
+* Turning AI output into **structured carousel content**
+* Making content **editable and usable instantly**
+* Enabling **download-ready assets for real social media use**
+
+---
+
+## ✨ Key Features
+
+### 🧠 AI Carousel Generation
+
+* Converts any topic into a **5-slide structured carousel**
+* Includes:
+
+  * Hook (attention-grabbing)
+  * Simple explanation
+  * Clear takeaway
+
+---
+
+### ✏️ Real-Time Editing (Major UX Focus)
+
+* Every slide is **fully editable**
+* No re-generation needed
+* Mimics tools like Canva
+
+👉 Why this matters:
+Most AI tools are static — this makes it practical
+
+---
+
+### 🎨 Clean & Thoughtful UI
+
+* Minimal, distraction-free design
+* Instagram-style card layout
+* Balanced spacing & readability
+
+---
+
+### 🌙 Dark / Light Mode
+
+* Improves usability across environments
+* Maintains readability & contrast
+
+---
+
+### 📥 Download as Images (Standout Feature)
+
+* Export each slide as a ready-to-post image
+* No external tools required
+
+👉 Why this stands out:
+Most submissions stop at generation —
+this completes the content → publish pipeline
+
+---
+
+## 🧠 Engineering Decisions
+
+* Used Next.js (App Router) for modern architecture
+* Implemented client-safe dynamic imports to avoid build failures
+* Ensured TypeScript-safe ref handling for stable deployment
+* Designed UI with Tailwind for speed + consistency
+
+---
+
+## ⚙️ Tech Stack
+
+* Next.js
+* TypeScript
+* Tailwind CSS
+* OpenAI / OpenRouter API
+* html-to-image
+
+---
+
+## 🚀 How to Run Locally
 
 ```bash
+git clone https://github.com/your-username/ai-social-studio
+cd ai-social-studio
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💡 What Makes This Submission Different
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project goes beyond a basic AI demo:
 
-## Learn More
+✅ Focus on real-world usability, not just generation
+✅ Editable workflow (not static AI output)
+✅ Export feature for immediate use
+✅ Clean UI with thoughtful UX decisions
+✅ Successfully deployed production-ready app
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👩‍💻 Author
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Ishita Chitranshi
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📌 Final Note
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The goal of this project was not just to use AI,
+but to make AI output usable, editable, and production-ready.
