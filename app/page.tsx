@@ -78,23 +78,15 @@ export default function Home() {
             AI Social Media Studio 🚀
           </h1>
 
-          {/* ✅ FIXED DROPDOWN */}
+          {/* ✅ FIXED DROPDOWN (always visible) */}
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
-            className={`mb-3 p-2 rounded border-2 border-blue-500 outline-none focus:ring-2 focus:ring-blue-300 ${
-              darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+            className="mb-3 p-2 rounded border-2 border-blue-500 bg-white text-black outline-none focus:ring-2 focus:ring-blue-300"
           >
-            <option className="bg-white text-black" value="carousel">
-              Carousel (1:1)
-            </option>
-            <option className="bg-white text-black" value="post">
-              Post (1:1)
-            </option>
-            <option className="bg-white text-black" value="story">
-              Story (9:16)
-            </option>
+            <option value="carousel">Carousel (1:1)</option>
+            <option value="post">Post (1:1)</option>
+            <option value="story">Story (9:16)</option>
           </select>
 
           {/* STYLE SWITCHER */}
