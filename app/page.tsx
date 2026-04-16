@@ -17,8 +17,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [format, setFormat] = useState("carousel");
-
-  // 🔥 NEW FEATURES
   const [style, setStyle] = useState("vibrant");
 
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -37,7 +35,6 @@ export default function Home() {
     setLoading(false);
   };
 
-  // 🔥 Regenerate single slide
   const regenerateSlide = async (index: number) => {
     const res = await fetch("/api/generate", {
       method: "POST",
@@ -48,7 +45,6 @@ export default function Home() {
 
     const newSlides = [...slides];
     newSlides[index] = data.slides[index];
-
     setSlides(newSlides);
   };
 
@@ -82,20 +78,26 @@ export default function Home() {
             AI Social Media Studio 🚀
           </h1>
 
-          {/* FORMAT */}
+          {/* ✅ FIXED DROPDOWN */}
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
-            className={`mb-3 p-2 rounded border-2 border-blue-500 ${
-              darkMode ? "text-white bg-black" : "text-black bg-white"
+            className={`mb-3 p-2 rounded border-2 border-blue-500 outline-none focus:ring-2 focus:ring-blue-300 ${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
-            <option value="carousel">Carousel (1:1)</option>
-            <option value="post">Post (1:1)</option>
-            <option value="story">Story (9:16)</option>
+            <option className="bg-white text-black" value="carousel">
+              Carousel (1:1)
+            </option>
+            <option className="bg-white text-black" value="post">
+              Post (1:1)
+            </option>
+            <option className="bg-white text-black" value="story">
+              Story (9:16)
+            </option>
           </select>
 
-          {/* 🔥 STYLE SWITCHER */}
+          {/* STYLE SWITCHER */}
           <div className="flex gap-2 mb-3">
             <button onClick={() => setStyle("minimal")} className="px-3 py-1 border rounded">Minimal</button>
             <button onClick={() => setStyle("vibrant")} className="px-3 py-1 border rounded">Vibrant</button>
@@ -104,7 +106,7 @@ export default function Home() {
 
           {/* INPUT */}
           <textarea
-            className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent outline-none ${
+            className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent outline-none focus:ring-2 focus:ring-blue-300 ${
               darkMode ? "text-white" : "text-black"
             }`}
             placeholder="Enter your idea..."
@@ -183,7 +185,7 @@ export default function Home() {
                   }}
                 />
 
-                {/* 🔥 REGENERATE */}
+                {/* REGENERATE */}
                 <button
                   onClick={() => regenerateSlide(i)}
                   className="text-xs underline mt-2"
@@ -195,7 +197,7 @@ export default function Home() {
             ))}
           </div>
 
-          {/* 🔥 COPY CAPTION */}
+          {/* COPY CAPTION */}
           {slides.length > 0 && (
             <button
               onClick={() =>
