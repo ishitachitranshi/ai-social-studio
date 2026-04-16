@@ -16,9 +16,8 @@ export default function Home() {
   const [slides, setSlides] = useState<{ title: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
-
-  // ✅ NEW: format state
   const [format, setFormat] = useState("carousel");
+  const [style, setStyle] = useState("vibrant");
 
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -34,6 +33,19 @@ export default function Home() {
     setSlides(data.slides);
 
     setLoading(false);
+  };
+
+  const regenerateSlide = async (index: number) => {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      body: JSON.stringify({ prompt, format }),
+    });
+
+    const data = await res.json();
+
+    const newSlides = [...slides];
+    newSlides[index] = data.slides[index];
+    setSlides(newSlides);
   };
 
   const downloadSlides = async () => {
@@ -66,20 +78,27 @@ export default function Home() {
             AI Social Media Studio 🚀
           </h1>
 
-          {/* ✅ FORMAT SELECTOR */}
+          {/* ✅ FIXED DROPDOWN (always visible) */}
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
-            className="mb-3 p-2 rounded border border-gray-400 text-black"
+            className="mb-3 p-2 rounded border-2 border-blue-500 bg-white text-black outline-none focus:ring-2 focus:ring-blue-300"
           >
             <option value="carousel">Carousel (1:1)</option>
             <option value="post">Post (1:1)</option>
             <option value="story">Story (9:16)</option>
           </select>
 
+          {/* STYLE SWITCHER */}
+          <div className="flex gap-2 mb-3">
+            <button onClick={() => setStyle("minimal")} className="px-3 py-1 border rounded">Minimal</button>
+            <button onClick={() => setStyle("vibrant")} className="px-3 py-1 border rounded">Vibrant</button>
+            <button onClick={() => setStyle("edu")} className="px-3 py-1 border rounded">Educational</button>
+          </div>
+
           {/* INPUT */}
           <textarea
-            className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-300 ${
+            className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent outline-none focus:ring-2 focus:ring-blue-300 ${
               darkMode ? "text-white" : "text-black"
             }`}
             placeholder="Enter your idea..."
@@ -91,27 +110,23 @@ export default function Home() {
 
             <button
               onClick={generate}
-              className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-blue-600 text-white px-4 py-2 rounded"
             >
               {loading ? "Generating..." : "Generate"}
             </button>
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`px-4 py-2 rounded font-medium ${
-                darkMode
-                  ? "bg-blue-600 text-white"
-                  : "border border-gray-400 text-black"
-              }`}
+              className="px-4 py-2 rounded border"
             >
               {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
             </button>
 
             <button
               onClick={downloadSlides}
-              className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded"
+              className="bg-green-600 text-white px-4 py-2 rounded"
             >
-              Download Slides 📥
+              Download 📥
             </button>
 
           </div>
@@ -119,10 +134,6 @@ export default function Home() {
 
         {/* RIGHT PANEL */}
         <div className="flex flex-col items-center">
-
-          <p className="text-sm opacity-70 mb-4">
-            Multi-format slides ✨
-          </p>
 
           <div className="grid grid-cols-2 gap-6">
             {slides.map((slide, i) => (
@@ -135,13 +146,18 @@ export default function Home() {
                   format === "story"
                     ? "w-[250px] h-[400px]"
                     : "w-[300px] h-[300px]"
-                } flex flex-col justify-between p-6 rounded-2xl shadow-xl text-white bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400`}
+                } flex flex-col justify-between p-6 rounded-2xl shadow-xl ${
+                  style === "minimal"
+                    ? "bg-white text-black"
+                    : style === "edu"
+                    ? "bg-blue-600 text-white"
+                    : "bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 text-white"
+                }`}
               >
                 
                 {/* TITLE */}
                 <textarea
-                  className="bg-transparent text-center font-bold text-xl outline-none resize-none leading-snug overflow-hidden"
-                  rows={2}
+                  className="bg-transparent text-center font-bold text-lg outline-none resize-none"
                   value={slide.title}
                   onChange={(e) => {
                     const newSlides = [...slides];
@@ -152,8 +168,7 @@ export default function Home() {
 
                 {/* CONTENT */}
                 <textarea
-                  className="bg-transparent text-center text-sm outline-none resize-none leading-relaxed overflow-hidden"
-                  rows={5}
+                  className="bg-transparent text-center text-sm outline-none resize-none"
                   value={slide.content}
                   onChange={(e) => {
                     const newSlides = [...slides];
@@ -162,9 +177,31 @@ export default function Home() {
                   }}
                 />
 
+                {/* REGENERATE */}
+                <button
+                  onClick={() => regenerateSlide(i)}
+                  className="text-xs underline mt-2"
+                >
+                  🔄 Regenerate
+                </button>
+
               </div>
             ))}
           </div>
+
+          {/* COPY CAPTION */}
+          {slides.length > 0 && (
+            <button
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  slides.map(s => `${s.title}\n${s.content}`).join("\n\n")
+                )
+              }
+              className="mt-6 bg-yellow-500 text-black px-4 py-2 rounded"
+            >
+              Copy Caption 📋
+            </button>
+          )}
 
         </div>
 
