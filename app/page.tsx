@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 
-// ✅ Safe dynamic import
+// Safe dynamic import
 let toPng: any = null;
 
 if (typeof window !== "undefined") {
@@ -35,19 +35,6 @@ export default function Home() {
     setLoading(false);
   };
 
-  const regenerateSlide = async (index: number) => {
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      body: JSON.stringify({ prompt, format }),
-    });
-
-    const data = await res.json();
-
-    const newSlides = [...slides];
-    newSlides[index] = data.slides[index];
-    setSlides(newSlides);
-  };
-
   const downloadSlides = async () => {
     if (!toPng) {
       alert("Please wait a second and try again");
@@ -78,18 +65,18 @@ export default function Home() {
             AI Social Media Studio 🚀
           </h1>
 
-          {/* ✅ FIXED DROPDOWN (always visible) */}
+          {/* FORMAT */}
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
-            className="mb-3 p-2 rounded border-2 border-blue-500 bg-white text-black outline-none focus:ring-2 focus:ring-blue-300"
+            className="mb-3 p-2 rounded border-2 border-blue-500 bg-white text-black outline-none"
           >
             <option value="carousel">Carousel (1:1)</option>
             <option value="post">Post (1:1)</option>
             <option value="story">Story (9:16)</option>
           </select>
 
-          {/* STYLE SWITCHER */}
+          {/* STYLE */}
           <div className="flex gap-2 mb-3">
             <button onClick={() => setStyle("minimal")} className="px-3 py-1 border rounded">Minimal</button>
             <button onClick={() => setStyle("vibrant")} className="px-3 py-1 border rounded">Vibrant</button>
@@ -98,7 +85,7 @@ export default function Home() {
 
           {/* INPUT */}
           <textarea
-            className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent outline-none focus:ring-2 focus:ring-blue-300 ${
+            className={`w-full p-3 rounded border-2 border-blue-500 bg-transparent outline-none ${
               darkMode ? "text-white" : "text-black"
             }`}
             placeholder="Enter your idea..."
@@ -156,40 +143,38 @@ export default function Home() {
               >
                 
                 {/* TITLE */}
-                <textarea
-                  className="bg-transparent text-center font-bold text-lg outline-none resize-none"
-                  value={slide.title}
-                  onChange={(e) => {
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
+                  className="text-center font-bold text-lg outline-none"
+                  onInput={(e) => {
                     const newSlides = [...slides];
-                    newSlides[i].title = e.target.value;
+                    newSlides[i].title = (e.target as HTMLDivElement).innerText;
                     setSlides(newSlides);
                   }}
-                />
+                >
+                  {slide.title}
+                </div>
 
                 {/* CONTENT */}
-                <textarea
-                  className="bg-transparent text-center text-sm outline-none resize-none"
-                  value={slide.content}
-                  onChange={(e) => {
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
+                  className="text-center text-sm outline-none leading-relaxed"
+                  onInput={(e) => {
                     const newSlides = [...slides];
-                    newSlides[i].content = e.target.value;
+                    newSlides[i].content = (e.target as HTMLDivElement).innerText;
                     setSlides(newSlides);
                   }}
-                />
-
-                {/* REGENERATE */}
-                <button
-                  onClick={() => regenerateSlide(i)}
-                  className="text-xs underline mt-2"
                 >
-                  🔄 Regenerate
-                </button>
+                  {slide.content}
+                </div>
 
               </div>
             ))}
           </div>
 
-          {/* COPY CAPTION */}
+          {/* COPY */}
           {slides.length > 0 && (
             <button
               onClick={() =>
